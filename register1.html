@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crab Borsa Registration</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary-color: #FFD700; /* ذهبي للأيقونات */
+            --bg-color: #ffffff;      /* خلفية بيضاء */
+            --text-color: #000000;    /* نص أسود */
+            --input-bg: #f0f0f0;      /* خلفية الحقول رمادي فاتح */
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        .terms-box {
+            max-height: 200px; /* ارتفاع مناسب */
+            overflow-y: auto;  /* Scroll View */
+            background: rgba(0,0,0,0.05);
+            padding: 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        label { font-size: 14px; color: var(--text-color); }
+    </style>
+</head>
+<body>
+
+    <div class="logo"> Crab Borsa</div>
+
+    <h3>تسجيل حساب جديد</h3>
+    <p style="font-size: 12px; opacity: 0.8;">يجب تعبئة البيانات بدقة للموافقة على حسابك</p>
+
+    <div class="card">
+        <label>الاسم الرباعي:</label>
+        <input type="text" id="fullName" placeholder="أدخل اسمك الكامل">
+        
+        <label>رقم الهاتف:</label>
+        <input type="tel" id="phone" placeholder="مثال: 770000000">
+    </div>
+
+    <div class="card">
+        <label>الشروط والأحكام:</label>
+        <div class="terms-box">
+            <b>سياسة الخصوصية وشروط الاستخدام - Crab Borsa</b><br><br>
+            تلتزم منصة Crab Borsa بحماية خصوصية المستخدمين والحفاظ على سرية بياناتهم الشخصية، 
+            ويتم التعامل مع جميع المعلومات وفقًا لأفضل الممارسات المتبعة في الخدمات المالية الرقمية.<br><br>
+
+            <b>استخدام البيانات:</b><br>
+            • التحقق من هوية المستخدم (KYC)<br>
+            • تنفيذ العمليات المالية<br>
+            • منع الاحتيال والأنشطة غير القانونية<br>
+            • الامتثال للمتطلبات القانونية والتنظيمية<br><br>
+
+            <b>حماية ومشاركة البيانات:</b><br>
+            • يتم تخزين البيانات بشكل آمن<br>
+            • لا يتم بيع أو مشاركة البيانات مع أي طرف ثالث<br>
+            • قد يتم الإفصاح عن البيانات فقط عند وجود طلب رسمي من جهة قانونية مختصة<br><br>
+
+            <b>التزامات المستخدم:</b><br>
+            • يلتزم المستخدم بصحة ودقة البيانات المقدمة<br>
+            • يُمنع استخدام المنصة في أي أنشطة غير قانونية<br>
+            • تحتفظ المنصة بحق تعليق أو إيقاف أي حساب مخالف<br><br>
+
+            <b>الموافقة:</b><br>
+            باستخدام منصة Crab Borsa، يقر المستخدم بموافقته الكاملة على سياسة الخصوصية وشروط الاستخدام.
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="agreeTerms" style="width: 20px;">
+            <label for="agreeTerms">أوافق على الشروط والأحكام</label>
+        </div>
+    </div>
+
+    <button onclick="sendData()">تسجيل البيانات 🚀</button>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // توسيع النافذة
+
+        function sendData() {
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const agree = document.getElementById('agreeTerms').checked;
+
+            if (!fullName || fullName.split(' ').length < 4) {
+                tg.showAlert("الرجاء إدخال الاسم الرباعي كاملاً.");
+                return;
+            }
+            if (!phone) {
+                tg.showAlert("الرجاء إدخال رقم الهاتف.");
+                return;
+            }
+            if (!agree) {
+                tg.showAlert("يجب الموافقة على الشروط والأحكام.");
+                return;
+            }
+
+            // إرسال البيانات للبوت
+            const data = JSON.stringify({
+                name: fullName,
+                phone: phone,
+                action: "register_data"
+            });
+            tg.sendData(data);
+        }
+    </script>
+</body>
+</html>
