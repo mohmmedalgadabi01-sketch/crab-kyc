@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق الحساب - Crab Borsa</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root { --primary-color: #FFD700; --bg-color: #ffffff; --text-color: #000000; --input-bg: #f0f0f0; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary-color); margin-bottom: 20px; }
+        .card { background: rgba(0, 0, 0, 0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: right; }
+        input { width: 93%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; background-color: var(--input-bg); font-size: 16px; }
+        .terms-box { max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.05); padding: 10px; font-size: 12px; border-radius: 5px; margin-bottom: 10px; }
+        button { background-color: var(--primary-color); color: var(--text-color); border: none; padding: 15px 30px; font-size: 18px; border-radius: 50px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: bold; }
+        label { font-size: 14px; display: block; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="logo">🦀 Crab Borsa KYC</div>
+    <h3>نموذج التوثيق</h3>
+    <p style="font-size: 12px; opacity: 0.8;">الخطوة 1: البيانات الشخصية</p>
+
+    <div class="card">
+        <label>الاسم الرباعي:</label>
+        <input type="text" id="fullName" placeholder="الاسم كما في البطاقة">
+        
+        <label>رقم الهاتف:</label>
+        <input type="tel" id="phone" placeholder="77xxxxxxx">
+    </div>
+
+    <div class="card">
+        <label>الشروط والأحكام:</label>
+        <div class="terms-box">
+            <b>شروط Crab Borsa:</b><br>
+            • البيانات تستخدم للتحقق فقط.<br>
+            • يمنع استخدام المنصة لغسيل الأموال.<br>
+            • يجب أن تكون الصور واضحة وحقيقية.<br>
+            • باستخدامك للمنصة أنت توافق على السياسات.
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="agreeTerms" style="width: 20px;">
+            <label for="agreeTerms">أوافق على الشروط</label>
+        </div>
+    </div>
+
+    <button onclick="sendData()">التالي: رفع الصور 📸</button>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function sendData() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const agree = document.getElementById('agreeTerms').checked;
+
+            if (!fullName || fullName.split(' ').length < 3) {
+                tg.showAlert("يرجى كتابة الاسم الثلاثي على الأقل."); return;
+            }
+            if (!phone || phone.length < 9) {
+                tg.showAlert("تأكد من رقم الهاتف."); return;
+            }
+            if (!agree) {
+                tg.showAlert("يجب الموافقة على الشروط."); return;
+            }
+
+            // إرسال البيانات للبوت
+            const data = JSON.stringify({
+                name: fullName,
+                phone: phone,
+                action: "kyc_data"
+            });
+            tg.sendData(data);
+        }
+    </script>
+</body>
+</html>
